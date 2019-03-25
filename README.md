@@ -4,6 +4,8 @@ A custom tabbar widget for Flutter framework.
 
 The design is inspired from Rally app (one of Material design studies).
 
+![](preview.gif)
+
 ## Usage
 
 This widget is programmed to work with `TabController`. 
