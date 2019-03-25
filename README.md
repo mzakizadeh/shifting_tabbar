@@ -1,4 +1,4 @@
-# Shifting Tabbar
+# Shifting TabBar
 
 A custom tabbar widget for Flutter framework. 
 
