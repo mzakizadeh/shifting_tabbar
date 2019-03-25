@@ -4,7 +4,7 @@ A custom tabbar widget for Flutter framework.
 
 The design is inspired from Rally app (one of Material design studies).
 
-![](preview.gif)
+<img style="float: right; margin-left: 40px" src="preview.gif">
 
 ## Usage
 
