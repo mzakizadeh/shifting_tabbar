@@ -2,7 +2,35 @@ library shifting_tabbar;
 
 import 'package:flutter/material.dart';
 
+/// A widget that displays a horizontal row of tabs with some kind of shifting animation.
+///
+/// Typically created instead of [AppBar] and in conjunction with a [TabBarView].
+///
+/// If a [TabController] is not provided, then a [DefaultTabController] ancestor
+/// must be provided instead. The tab controller's [TabController.length] must
+/// equal the length of the [tabs] list.
+///
+/// Requires one of its ancestors to be a [Material] widget.
+///
+/// See also:
+///
+///  * [TabBarView], which displays page views that correspond to each tab.
 class ShiftingTabBar extends StatefulWidget implements PreferredSizeWidget {
+  /// Creates a shifting tab bar.
+  ///
+  /// The [tabs] argument must not be null and its length must match the [controller]'s
+  /// [TabController.length].
+  ///
+  /// If a [TabController] is not provided, then there must be a
+  /// [DefaultTabController] ancestor.
+  ///
+  /// The [color] argument is used as background of tab bar If a [color] is not provided
+  /// then it will use ancestor [ThemeData.primaryColor] property as default
+  /// background color.
+  ///
+  /// The [brightness] argument is used to determin whetever the color of text must light
+  /// or dark. If it's not provided it will use [Color.computeLuminance] function and
+  /// [color] argument or [ThemeData.primaryColor] as arguments to determin this property.
   const ShiftingTabBar({
     Key key,
     @required this.tabs,
@@ -12,9 +40,27 @@ class ShiftingTabBar extends StatefulWidget implements PreferredSizeWidget {
   })  : assert(tabs != null),
         super(key: key);
 
+  /// Typically a list of two or more [ShifitngTab] widgets.
+  ///
+  /// The length of this list must match the [controller]'s [TabController.length].
   final List<ShiftingTab> tabs;
+
+  /// This widget's selection and animation state.
+  ///
+  /// If [TabController] is not provided, then the value of [DefaultTabController.of]
+  /// will be used.
   final TabController controller;
+
+  /// The color of widget background
+  ///
+  /// If a [color] is not provided then it will use ancestor [ThemeData.primaryColor]
+  /// property as default background color.
   final Color color;
+
+  /// Describes the contrast of background color.
+  ///
+  /// If [Brightness] is not provided, then it will use [Color.computeLuminance] function and
+  /// background color as arguments to determin this property.
   final Brightness brightness;
 
   @override
@@ -56,12 +102,13 @@ class _ShiftingTabBarState extends State<ShiftingTabBar> {
   List<_ShiftingTabWidget> _buildTabWidgets() {
     final double margin =
         (MediaQuery.of(context).size.width / (widget.tabs.length + 1) - 19) / 2;
-    final List<_ShiftingTabWidget> tabWidgets = List<Widget>(widget.tabs.length);
+    final List<_ShiftingTabWidget> tabWidgets =
+        List<Widget>(widget.tabs.length);
 
     for (int i = 0; i < widget.tabs.length; i++) {
       tabWidgets[i] = _ShiftingTabWidget(
         key: widget.tabs[i].key,
-        animation: ShiftingAnimation(_controller, i),
+        animation: _ShiftingAnimation(_controller, i),
         margin: margin,
         icon: widget.tabs[i].icon,
         onTap: () => _controller.animateTo(i),
@@ -117,7 +164,9 @@ class _ShiftingTabWidget extends AnimatedWidget {
         : Color.lerp(Colors.black54, Colors.black, animation.value);
 
     return Expanded(
-      flex: (Tween<double>(begin: 1.0, end: 2.0).animate(animation).value * 1000).round(),
+      flex:
+          (Tween<double>(begin: 1.0, end: 2.0).animate(animation).value * 1000)
+              .round(),
       child: InkWell(
         highlightColor: Colors.transparent,
         splashColor: Colors.transparent,
@@ -127,7 +176,8 @@ class _ShiftingTabWidget extends AnimatedWidget {
     );
   }
 
-  Widget _buildTab(Animation<double> animation, Color color, double margin, TextDirection dir) {
+  Widget _buildTab(Animation<double> animation, Color color, double margin,
+      TextDirection dir) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
@@ -152,7 +202,8 @@ class _ShiftingTabWidget extends AnimatedWidget {
     );
   }
 
-  Widget _buildText(Animation<double> animation, Color color, TextDirection dir) {
+  Widget _buildText(
+      Animation<double> animation, Color color, TextDirection dir) {
     return FadeTransition(
       opacity: animation,
       child: SizeTransition(
@@ -160,12 +211,14 @@ class _ShiftingTabWidget extends AnimatedWidget {
           margin: dir == TextDirection.ltr
               ? const EdgeInsets.only(left: 12)
               : const EdgeInsets.only(right: 12),
-          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-            DefaultTextStyle(
-              style: TextStyle(fontSize: 17, color: color),
-              child: Text(text),
-            )
-          ]),
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                DefaultTextStyle(
+                  style: TextStyle(fontSize: 17, color: color),
+                  child: Text(text),
+                )
+              ]),
         ),
         axis: Axis.horizontal,
         axisAlignment: -1.0,
@@ -175,9 +228,9 @@ class _ShiftingTabWidget extends AnimatedWidget {
   }
 }
 
-class ShiftingAnimation extends Animation<double>
+class _ShiftingAnimation extends Animation<double>
     with AnimationWithParentMixin<double> {
-  ShiftingAnimation(this.controller, this.index);
+  _ShiftingAnimation(this.controller, this.index);
 
   final TabController controller;
   final int index;
@@ -189,21 +242,32 @@ class ShiftingAnimation extends Animation<double>
   double get value => _indexChangeProgress(controller, index);
 }
 
+/// I'm not exacly sure that what I did here. LOL
+/// But the basic idea of this function is converting the value of controller
+/// animation (witch is a double between 0.0 and number of tab items minus one)
+/// to a double between 0.0 and 1.0 base on [index] of tab.
 double _indexChangeProgress(TabController controller, int index) {
   final double controllerValue = controller.animation.value;
   final double previousIndex = controller.previousIndex.toDouble();
   final double currentIndex = controller.index.toDouble();
 
-  if (index != currentIndex && index != previousIndex) if (controller
-      .indexIsChanging)
-    return 0.0;
-  else if (controller.offset < 0 && index == controller.index - 1)
-    return controller.offset.abs().clamp(0.0, 1.0);
-  else if (controller.offset > 0 && index == controller.index + 1)
-    return controller.offset.abs().clamp(0.0, 1.0);
-  else
-    return 0.0;
+  /// I created this part base on some testings and I'm pretty sure this can be
+  /// simplified!
 
+  // TODO: Simplify this part
+  if (index != currentIndex && index != previousIndex) {
+    if (controller.indexIsChanging)
+      return 0.0;
+    else if (controller.offset < 0 && index == controller.index - 1)
+      return controller.offset.abs().clamp(0.0, 1.0);
+    else if (controller.offset > 0 && index == controller.index + 1)
+      return controller.offset.abs().clamp(0.0, 1.0);
+    else
+      return 0.0;
+  }
+
+  // The controller's offset is changing because the user is dragging the
+  // TabBarView's PageView to the left or right.
   if (!controller.indexIsChanging) {
     if (index == currentIndex)
       return 1.0 - controller.offset.abs().clamp(0.0, 1.0);
@@ -214,6 +278,7 @@ double _indexChangeProgress(TabController controller, int index) {
           : 0.0;
   }
 
+  // The TabController animation's value is changing from previousIndex to currentIndex.
   final double val = (controllerValue - currentIndex).abs() /
       (currentIndex - previousIndex).abs();
   return index == currentIndex ? 1.0 - val : val;
