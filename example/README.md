@@ -4,7 +4,7 @@ Demonstrates how to use the shifting_tabbar plugin.
 
 ## Usage
 
-```
+```dart
 class MyApp extends StatelessWidget {
   build(context) {
     return MaterialApp(

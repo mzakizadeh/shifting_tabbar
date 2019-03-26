@@ -3,7 +3,7 @@ library shifting_tabbar;
 import 'package:flutter/material.dart';
 
 class ShiftingTabBar extends StatefulWidget implements PreferredSizeWidget {
-  ShiftingTabBar({
+  const ShiftingTabBar({
     Key key,
     @required this.tabs,
     this.controller,
@@ -17,9 +17,11 @@ class ShiftingTabBar extends StatefulWidget implements PreferredSizeWidget {
   final Color color;
   final Brightness brightness;
 
-  createState() => _ShiftingTabBarState();
+  @override
+  _ShiftingTabBarState createState() => _ShiftingTabBarState();
 
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
 
 class _ShiftingTabBarState extends State<ShiftingTabBar> {
@@ -27,7 +29,8 @@ class _ShiftingTabBarState extends State<ShiftingTabBar> {
   Color _color;
   Brightness _brightness;
 
-  didChangeDependencies() {
+  @override
+  void didChangeDependencies() {
     super.didChangeDependencies();
 
     _controller = widget.controller ?? DefaultTabController.of(context);
@@ -37,7 +40,8 @@ class _ShiftingTabBarState extends State<ShiftingTabBar> {
     _controller.animation.addListener(() => setState(() {}));
   }
 
-  build(context) {
+  @override
+  Widget build(BuildContext context) {
     return Container(
       color: _color,
       child: SafeArea(
@@ -49,12 +53,12 @@ class _ShiftingTabBarState extends State<ShiftingTabBar> {
     );
   }
 
-  _buildTabWidgets() {
-    final margin =
+  List<_ShiftingTabWidget> _buildTabWidgets() {
+    final double margin =
         (MediaQuery.of(context).size.width / (widget.tabs.length + 1) - 19) / 2;
-    final tabWidgets = List<Widget>(widget.tabs.length);
+    final List<_ShiftingTabWidget> tabWidgets = List<Widget>(widget.tabs.length);
 
-    for (var i = 0; i < widget.tabs.length; i++) {
+    for (int i = 0; i < widget.tabs.length; i++) {
       tabWidgets[i] = _ShiftingTabWidget(
         key: widget.tabs[i].key,
         animation: ShiftingAnimation(_controller, i),
@@ -86,7 +90,7 @@ class ShiftingTab {
 }
 
 class _ShiftingTabWidget extends AnimatedWidget {
-  _ShiftingTabWidget({
+  const _ShiftingTabWidget({
     Key key,
     Animation<double> animation,
     this.onTap,
@@ -102,18 +106,18 @@ class _ShiftingTabWidget extends AnimatedWidget {
   final double margin;
   final Brightness brightness;
 
-  final int iconSize = 19;
-  final int textSize = 16;
+  int get iconSize => 19;
+  int get textSize => 16;
 
-  build(context) {
+  @override
+  Widget build(BuildContext context) {
     final Animation<double> animation = listenable;
-    final color = brightness == Brightness.dark
+    final Color color = brightness == Brightness.dark
         ? Color.lerp(Colors.white54, Colors.white, animation.value)
         : Color.lerp(Colors.black54, Colors.black, animation.value);
 
     return Expanded(
-      flex:
-          (Tween(begin: 1.0, end: 2.0).animate(animation).value * 1000).round(),
+      flex: (Tween<double>(begin: 1.0, end: 2.0).animate(animation).value * 1000).round(),
       child: InkWell(
         highlightColor: Colors.transparent,
         splashColor: Colors.transparent,
@@ -123,7 +127,7 @@ class _ShiftingTabWidget extends AnimatedWidget {
     );
   }
 
-  _buildTab(animation, color, margin, dir) {
+  Widget _buildTab(Animation<double> animation, Color color, double margin, TextDirection dir) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
@@ -133,7 +137,7 @@ class _ShiftingTabWidget extends AnimatedWidget {
     );
   }
 
-  _buildIcon(color, margin, dir) {
+  Widget _buildIcon(Color color, double margin, TextDirection dir) {
     return Container(
       margin: dir == TextDirection.ltr
           ? EdgeInsets.only(left: margin)
@@ -148,24 +152,24 @@ class _ShiftingTabWidget extends AnimatedWidget {
     );
   }
 
-  _buildText(animation, color, dir) {
+  Widget _buildText(Animation<double> animation, Color color, TextDirection dir) {
     return FadeTransition(
       opacity: animation,
       child: SizeTransition(
         child: Container(
           margin: dir == TextDirection.ltr
-              ? EdgeInsets.only(left: 12)
-              : EdgeInsets.only(right: 12),
-          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              ? const EdgeInsets.only(left: 12)
+              : const EdgeInsets.only(right: 12),
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
             DefaultTextStyle(
-              style: TextStyle(fontSize: 17, color: color, fontFamily: "Sans"),
+              style: TextStyle(fontSize: 17, color: color),
               child: Text(text),
             )
           ]),
         ),
         axis: Axis.horizontal,
         axisAlignment: -1.0,
-        sizeFactor: Tween(begin: 0.0, end: 1.0).animate(animation),
+        sizeFactor: Tween<double>(begin: 0.0, end: 1.0).animate(animation),
       ),
     );
   }
@@ -210,7 +214,7 @@ double _indexChangeProgress(TabController controller, int index) {
           : 0.0;
   }
 
-  double val = (controllerValue - currentIndex).abs() /
+  final double val = (controllerValue - currentIndex).abs() /
       (currentIndex - previousIndex).abs();
   return index == currentIndex ? 1.0 - val : val;
 }

@@ -18,7 +18,7 @@ Use installing section from top to get help to install the package and import it
 
 **Don't foget to use `DefaultTabController` as an ancestor widget if you don't specify controller manually!**
 
-```
+```dart
 new ShiftingTabBar(
     tabs: [
         ShiftingTab(
