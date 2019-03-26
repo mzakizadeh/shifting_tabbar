@@ -1,4 +1,4 @@
-[![pub package](https://img.shields.io/badge/pub-v0.1.0-orange.svg)](https://pub.dartlang.org/packages/shifting_tabbar)
+[![pub package](https://img.shields.io/badge/pub-v0.2.0-orange.svg)](https://pub.dartlang.org/packages/shifting_tabbar)
 
 
 # Shifting TabBar
@@ -9,12 +9,26 @@ The design is inspired from Rally app (one of Material design studies).
 
 <img align="right" width="248" height="512" src="https://media.giphy.com/media/35TAoEQmPBLFwEpInv/giphy.gif">
 
-## Usage
+## Getting Started
+
+### Add the package to `pubspec.yaml`
+
+```yaml
+dependencies:
+    ...
+    shifting_tabbar: ^0.2.0
+```
+
+### Import the package
+
+```dart
+import 'package:shifting_tabbar/shifting_tabbar.dart'
+```
+
+### Basic Usage
 
 This widget is programmed to work with `TabController`. 
 You just need to install and import it to your code and use it just like `TabBar`.
-
-Use installing section from top to get help to install the package and import it to your code.
 
 **Don't foget to use `DefaultTabController` as an ancestor widget if you don't specify controller manually!**
 
@@ -37,4 +51,4 @@ new ShiftingTabBar(
 )
 ```
 
-See example section and git repository for more detailed example.
+See example folder in git repository for more detailed example.
