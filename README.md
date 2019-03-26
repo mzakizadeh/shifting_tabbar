@@ -1,11 +1,11 @@
-[![pub package](https://img.shields.io/badge/pub-v0.2.0-orange.svg)](https://pub.dartlang.org/packages/shifting_tabbar)
+[![pub package](https://img.shields.io/badge/pub-v0.2.1-orange.svg)](https://pub.dartlang.org/packages/shifting_tabbar)
 
 
 # Shifting TabBar
 
 A custom tabbar widget for Flutter framework. 
 
-The design is inspired from Rally app (one of Material design studies).
+The design is inspired from Rally project (one of material design studies).
 
 <img align="right" width="248" height="512" src="https://media.giphy.com/media/35TAoEQmPBLFwEpInv/giphy.gif">
 
@@ -16,13 +16,13 @@ The design is inspired from Rally app (one of Material design studies).
 ```yaml
 dependencies:
     ...
-    shifting_tabbar: ^0.2.0
+    shifting_tabbar: ^0.2.1
 ```
 
 ### Import the package
 
 ```dart
-import 'package:shifting_tabbar/shifting_tabbar.dart'
+import 'package:shifting_tabbar/shifting_tabbar.dart';
 ```
 
 ### Basic Usage

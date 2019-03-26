@@ -1,3 +1,6 @@
+## 0.2.1
+* Minor changes in description and README
+
 ## 0.2.0
 * Some minor changes in code
 * Adding comments
