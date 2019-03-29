@@ -1,3 +1,8 @@
+## 0.3.0
+* New `labelStyle` parameter
+* New `labelFlex` parameter
+* New `forceUpperCase` parameter## 0.2.2
+
 ## 0.2.2
 * A little bug fixed
 
