@@ -1,3 +1,6 @@
+## 0.2.2
+* A little bug fixed
+
 ## 0.2.1
 * Minor changes in description and README
 
