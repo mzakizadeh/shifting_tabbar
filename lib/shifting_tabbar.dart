@@ -28,9 +28,9 @@ class ShiftingTabBar extends StatefulWidget implements PreferredSizeWidget {
   /// then it will use ancestor [ThemeData.primaryColor] property as default
   /// background color.
   ///
-  /// The [brightness] argument is used to determin whetever the color of text must light
+  /// The [brightness] argument is used to determine whatever the color of text must light
   /// or dark. If it's not provided it will use [Color.computeLuminance] function and
-  /// [color] argument or [ThemeData.primaryColor] as arguments to determin this property.
+  /// [color] argument or [ThemeData.primaryColor] as arguments to determines this property.
   const ShiftingTabBar({
     Key key,
     @required this.tabs,
@@ -40,7 +40,7 @@ class ShiftingTabBar extends StatefulWidget implements PreferredSizeWidget {
   })  : assert(tabs != null),
         super(key: key);
 
-  /// Typically a list of two or more [ShifitngTab] widgets.
+  /// Typically a list of two or more [ShiftingTab] widgets.
   ///
   /// The length of this list must match the [controller]'s [TabController.length].
   final List<ShiftingTab> tabs;
@@ -60,7 +60,7 @@ class ShiftingTabBar extends StatefulWidget implements PreferredSizeWidget {
   /// Describes the contrast of background color.
   ///
   /// If [Brightness] is not provided, then it will use [Color.computeLuminance] function and
-  /// background color as arguments to determin this property.
+  /// background color as arguments to determine this property.
   final Brightness brightness;
 
   @override
@@ -242,7 +242,7 @@ class _ShiftingAnimation extends Animation<double>
   double get value => _indexChangeProgress(controller, index);
 }
 
-/// I'm not exacly sure that what I did here. LOL
+/// I'm not exactly sure that what I did here. LOL
 /// But the basic idea of this function is converting the value of controller
 /// animation (witch is a double between 0.0 and number of tab items minus one)
 /// to a double between 0.0 and 1.0 base on [index] of tab.
@@ -251,7 +251,7 @@ double _indexChangeProgress(TabController controller, int index) {
   final double previousIndex = controller.previousIndex.toDouble();
   final double currentIndex = controller.index.toDouble();
 
-  /// I created this part base on some testings and I'm pretty sure this can be
+  /// I created this part base on some experiments and I'm pretty sure this can be
   /// simplified!
 
   // TODO: Simplify this part
