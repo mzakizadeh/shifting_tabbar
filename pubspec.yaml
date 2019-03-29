@@ -1,6 +1,6 @@
 name: shifting_tabbar
 description: A custom tab bar widget for Flutter framework with nice and clean shifting animation. 
-version: 0.3.0
+version: 0.3.1
 author: Mahdi Zakizadeh <mahdizakizadeh.me@gmail.com>
 homepage: https://github.com/mahdizakizadeh/shifting_tabbar
 

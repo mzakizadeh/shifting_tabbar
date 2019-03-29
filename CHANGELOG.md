@@ -1,3 +1,6 @@
+## 0.3.1
+* Resolve a problem with fonts
+
 ## 0.3.0
 * New `labelStyle` parameter
 * New `labelFlex` parameter
