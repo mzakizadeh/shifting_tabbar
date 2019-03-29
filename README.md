@@ -3,7 +3,7 @@
 
 # Shifting TabBar
 
-A custom tabbar widget for Flutter framework. 
+A custom tab bar widget for Flutter framework. 
 
 The design is inspired from Rally project (one of material design studies).
 
@@ -30,7 +30,7 @@ import 'package:shifting_tabbar/shifting_tabbar.dart';
 This widget is programmed to work with `TabController`. 
 You just need to install and import it to your code and use it just like `TabBar`.
 
-**Don't foget to use `DefaultTabController` as an ancestor widget if you don't specify controller manually!**
+**Don't forget to use `DefaultTabController` as an ancestor widget if you don't specify controller manually!**
 
 ```dart
 new ShiftingTabBar(

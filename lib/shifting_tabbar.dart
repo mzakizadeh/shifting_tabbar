@@ -103,7 +103,7 @@ class _ShiftingTabBarState extends State<ShiftingTabBar> {
     final double margin =
         (MediaQuery.of(context).size.width / (widget.tabs.length + 1) - 19) / 2;
     final List<_ShiftingTabWidget> tabWidgets =
-        List<Widget>(widget.tabs.length);
+        List<_ShiftingTabWidget>(widget.tabs.length);
 
     for (int i = 0; i < widget.tabs.length; i++) {
       tabWidgets[i] = _ShiftingTabWidget(
