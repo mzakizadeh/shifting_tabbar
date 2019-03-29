@@ -197,7 +197,7 @@ class _ShiftingTabWidget extends AnimatedWidget {
         highlightColor: Colors.transparent,
         splashColor: Colors.transparent,
         onTap: onTap,
-        child: _buildTab(animation, color, margin, Directionality.of(context)),
+        child: _buildTab(animation, color, margin, context),
       ),
     );
   }
@@ -206,7 +206,9 @@ class _ShiftingTabWidget extends AnimatedWidget {
     Animation<double> animation, 
     Color color, 
     double margin,
-    TextDirection dir) {
+    BuildContext context,) {
+    final TextDirection dir = Directionality.of(context);
+    
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
@@ -215,7 +217,7 @@ class _ShiftingTabWidget extends AnimatedWidget {
           animation, 
           color, 
           dir, 
-          labelStyle ?? TextStyle(fontSize: 14, color: color, letterSpacing: 2, fontWeight: FontWeight.bold)
+          labelStyle ?? Theme.of(context).textTheme.headline.copyWith(fontSize: 14, color: color, letterSpacing: 2, fontWeight: FontWeight.bold)
         ),
       ],
     );
