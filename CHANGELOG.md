@@ -1,3 +1,6 @@
+## 0.3.2
+* Minor changes in code
+
 ## 0.3.1
 * Resolve a problem with fonts
 

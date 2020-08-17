@@ -1,9 +1,14 @@
 // This is a generated file; do not edit or check into version control.
-FLUTTER_ROOT=C:\tools\flutter-sdk
-FLUTTER_APPLICATION_PATH=C:\dev\flutter\shifting_tabbar_example
-FLUTTER_TARGET=lib/main.dart
+FLUTTER_ROOT=C:\bin\flutter
+FLUTTER_APPLICATION_PATH=C:\dev\flutter\shifting_tabbar\example
+FLUTTER_TARGET=lib\main.dart
 FLUTTER_BUILD_DIR=build
 SYMROOT=${SOURCE_ROOT}/../build\ios
-FLUTTER_FRAMEWORK_DIR=C:\tools\flutter-sdk\bin\cache\artifacts\engine\ios
+OTHER_LDFLAGS=$(inherited) -framework Flutter
+FLUTTER_FRAMEWORK_DIR=C:\bin\flutter\bin\cache\artifacts\engine\ios
 FLUTTER_BUILD_NAME=1.0.0
 FLUTTER_BUILD_NUMBER=1
+DART_OBFUSCATION=false
+TRACK_WIDGET_CREATION=false
+TREE_SHAKE_ICONS=false
+PACKAGE_CONFIG=.packages

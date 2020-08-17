@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:shifting_tabbar/shifting_tabbar.dart';
 
-void main() => runApp(
-  MaterialApp(
-    home: MyApp()
-  )
-);
+void main() => runApp(MaterialApp(home: MyApp()));
 
 class MyApp extends StatelessWidget {
-  build(context) {
+  @override
+  Widget build(BuildContext context) {
     return MaterialApp(
       // Define a controller for TabBar and TabBarViews
       home: DefaultTabController(
@@ -18,36 +15,36 @@ class MyApp extends StatelessWidget {
           appBar: ShiftingTabBar(
             // Specify a color to background or it will pick it from primaryColor of your app ThemeData
             color: Colors.grey,
-            // You can change brightness manually to change text color style to dark and light or 
+            // You can change brightness manually to change text color style to dark and light or
             // it will decide based on your background color
             // brightness: Brightness.dark,
-            tabs: [
+            tabs: <ShiftingTab>[
               // Also you should use ShiftingTab widget instead of Tab widget to get shifting animation
               ShiftingTab(
-                icon: Icon(Icons.home),
-                text: "Test 1",
+                icon: const Icon(Icons.home),
+                text: 'Test 1',
               ),
               ShiftingTab(
-                icon: Icon(Icons.directions_bike),
-                text: "Test 2"
+                icon: const Icon(Icons.directions_bike),
+                text: 'Test 2',
               ),
               ShiftingTab(
-                icon: Icon(Icons.directions_car),
-                text: "Test 3"
+                icon: const Icon(Icons.directions_car),
+                text: 'Test 3',
               ),
               ShiftingTab(
-                icon: Icon(Icons.directions_transit),
-                text: "Test 4"
+                icon: const Icon(Icons.directions_transit),
+                text: 'Test 4',
               ),
               ShiftingTab(
-                icon: Icon(Icons.directions_boat),
-                text: "Test 5"
+                icon: const Icon(Icons.directions_boat),
+                text: 'Test 5',
               ),
             ],
           ),
           // Other parts of the app are exacly same as default TabBar widget
-          body: TabBarView(
-            children: [
+          body: const TabBarView(
+            children: <Widget>[
               Icon(Icons.home),
               Icon(Icons.directions_bike),
               Icon(Icons.directions_car),
