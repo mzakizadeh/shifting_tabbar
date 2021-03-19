@@ -325,7 +325,6 @@ double _indexChangeProgress(TabController controller, int index) {
   /// I created this part base on some experiments and I'm pretty sure this can be
   /// simplified!
 
-  // TODO: Simplify this part
   if (index != currentIndex && index != previousIndex) {
     if (controller.indexIsChanging)
       return 0.0;

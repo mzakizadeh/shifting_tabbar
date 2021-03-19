@@ -1,3 +1,6 @@
+## 1.0.0
+* Nullsafety
+
 ## 0.3.2
 * Minor changes in code
 
