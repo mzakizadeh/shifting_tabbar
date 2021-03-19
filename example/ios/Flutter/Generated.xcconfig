@@ -1,14 +1,13 @@
 // This is a generated file; do not edit or check into version control.
-FLUTTER_ROOT=C:\bin\flutter
-FLUTTER_APPLICATION_PATH=C:\dev\flutter\shifting_tabbar\example
-FLUTTER_TARGET=lib\main.dart
+FLUTTER_ROOT=/opt/homebrew/Caskroom/flutter/2.0.2/flutter
+FLUTTER_APPLICATION_PATH=/Users/mahdizakizadeh/dev/flutter/shifting_tabbar/example
+FLUTTER_TARGET=/Users/mahdizakizadeh/dev/flutter/shifting_tabbar/example/lib/main.dart
 FLUTTER_BUILD_DIR=build
-SYMROOT=${SOURCE_ROOT}/../build\ios
-OTHER_LDFLAGS=$(inherited) -framework Flutter
-FLUTTER_FRAMEWORK_DIR=C:\bin\flutter\bin\cache\artifacts\engine\ios
+SYMROOT=${SOURCE_ROOT}/../build/ios
 FLUTTER_BUILD_NAME=1.0.0
 FLUTTER_BUILD_NUMBER=1
+DART_DEFINES=flutter.inspector.structuredErrors%3Dtrue
 DART_OBFUSCATION=false
-TRACK_WIDGET_CREATION=false
+TRACK_WIDGET_CREATION=true
 TREE_SHAKE_ICONS=false
-PACKAGE_CONFIG=.packages
+PACKAGE_CONFIG=/Users/mahdizakizadeh/dev/flutter/shifting_tabbar/example/.dart_tool/package_config.json

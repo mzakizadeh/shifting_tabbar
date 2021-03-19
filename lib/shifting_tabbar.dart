@@ -2,6 +2,14 @@ library shifting_tabbar;
 
 import 'package:flutter/material.dart';
 
+extension ExtendedIterable<E> on Iterable<E> {
+  /// Like Iterable<T>.map but callback have index as second argument
+  Iterable<T> mapIndexed<T>(T Function(E e, int i) f) {
+    int i = 0;
+    return map((E e) => f(e, i++));
+  }
+}
+
 /// A widget that displays a horizontal row of tabs with some kind of shifting animation.
 ///
 /// Typically created instead of [AppBar] and in conjunction with a [TabBarView].
@@ -31,11 +39,9 @@ class ShiftingTabBar extends StatefulWidget implements PreferredSizeWidget {
   /// The [brightness] argument is used to determine whatever the color of text must light
   /// or dark. If it's not provided it will use [Color.computeLuminance] function and
   /// [color] argument or [ThemeData.primaryColor] as arguments to determines this property.
-  /// 
-  /// 
   const ShiftingTabBar({
-    Key key,
-    @required this.tabs,
+    Key? key,
+    required this.tabs,
     this.controller,
     this.color,
     this.brightness,
@@ -54,27 +60,27 @@ class ShiftingTabBar extends StatefulWidget implements PreferredSizeWidget {
   ///
   /// If [TabController] is not provided, then the value of [DefaultTabController.of]
   /// will be used.
-  final TabController controller;
+  final TabController? controller;
 
   /// The color of widget background.
   ///
   /// If a [color] is not provided then it will use ancestor [ThemeData.primaryColor]
   /// property as default background color.
-  final Color color;
+  final Color? color;
 
   /// Describes the contrast of background color.
   ///
   /// If [Brightness] is not provided, then it will use [Color.computeLuminance] function and
   /// background color as arguments to determine this property.
-  final Brightness brightness;
+  final Brightness? brightness;
 
   /// The amount of space that [Text] widget can take.
-  /// 
-  /// The flex value for [Icon] widgets and also the default value of this property is 1.0 
-  final double labelFlex;
+  ///
+  /// The flex value for [Icon] widgets and also the default value of this property is 1.0
+  final double? labelFlex;
 
-  /// The text style of the tab labels. 
-  final TextStyle labelStyle;
+  /// The text style of the tab labels.
+  final TextStyle? labelStyle;
 
   /// The option to disable upper-case style in labels
   final bool forceUpperCase;
@@ -87,9 +93,9 @@ class ShiftingTabBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _ShiftingTabBarState extends State<ShiftingTabBar> {
-  TabController _controller;
-  Color _color;
-  Brightness _brightness;
+  TabController? _controller;
+  Color? _color;
+  Brightness? _brightness;
 
   @override
   void didChangeDependencies() {
@@ -99,7 +105,7 @@ class _ShiftingTabBarState extends State<ShiftingTabBar> {
     _color = widget.color ?? Theme.of(context).primaryColor;
     _brightness = widget.brightness ?? Brightness.light;
 
-    _controller.animation.addListener(() => setState(() {}));
+    _controller!.animation!.addListener(() => setState(() {}));
   }
 
   @override
@@ -109,7 +115,7 @@ class _ShiftingTabBarState extends State<ShiftingTabBar> {
       child: SafeArea(
         top: true,
         child: Row(
-          children: _buildTabWidgets(),
+          children: _buildTabWidgets() as List<Widget>,
         ),
       ),
     );
@@ -122,9 +128,26 @@ class _ShiftingTabBarState extends State<ShiftingTabBar> {
     return (deviceWidth / sizeFactor - 19) / 2;
   }
 
-  List<_ShiftingTabWidget> _buildTabWidgets() {
+  List<_ShiftingTabWidget?> _buildTabWidgets() {
     final double margin = _computeTabMargin(widget.tabs.length);
-    final List<_ShiftingTabWidget> tabWidgets = List<_ShiftingTabWidget>(widget.tabs.length);
+    final List<_ShiftingTabWidget?> tabWidgets = List<_ShiftingTabWidget?>.from(
+      widget.tabs.mapIndexed<_ShiftingTabWidget>(
+        (ShiftingTab tab, int index) => _ShiftingTabWidget(
+          key: tab.key,
+          animation: _ShiftingAnimation(_controller, index),
+          margin: margin,
+          icon: tab.icon,
+          onTap: () => _controller!.animateTo(index),
+          text: widget.forceUpperCase ? tab.text!.toUpperCase() : tab.text,
+          brightness: _brightness ??
+              (_color!.computeLuminance() > 0.5
+                  ? Brightness.dark
+                  : Brightness.light),
+          labelFlex: widget.labelFlex ?? 1.0,
+          labelStyle: widget.labelStyle,
+        ),
+      ),
+    );
 
     for (int i = 0; i < widget.tabs.length; i++) {
       tabWidgets[i] = _ShiftingTabWidget(
@@ -132,10 +155,12 @@ class _ShiftingTabBarState extends State<ShiftingTabBar> {
         animation: _ShiftingAnimation(_controller, i),
         margin: margin,
         icon: widget.tabs[i].icon,
-        onTap: () => _controller.animateTo(i),
-        text: widget.forceUpperCase ? widget.tabs[i].text.toUpperCase() : widget.tabs[i].text,
+        onTap: () => _controller!.animateTo(i),
+        text: widget.forceUpperCase
+            ? widget.tabs[i].text!.toUpperCase()
+            : widget.tabs[i].text,
         brightness: _brightness ??
-            (_color.computeLuminance() > 0.5
+            (_color!.computeLuminance() > 0.5
                 ? Brightness.dark
                 : Brightness.light),
         labelFlex: widget.labelFlex ?? 1.0,
@@ -154,15 +179,15 @@ class ShiftingTab {
     this.icon,
   });
 
-  final Key key;
-  final String text;
-  final Icon icon;
+  final Key? key;
+  final String? text;
+  final Icon? icon;
 }
 
 class _ShiftingTabWidget extends AnimatedWidget {
   const _ShiftingTabWidget({
-    Key key,
-    Animation<double> animation,
+    Key? key,
+    required Animation<double> animation,
     this.onTap,
     this.text,
     this.icon,
@@ -172,22 +197,23 @@ class _ShiftingTabWidget extends AnimatedWidget {
     this.labelStyle,
   }) : super(key: key, listenable: animation);
 
-  final Function onTap;
-  final String text;
-  final Icon icon;
-  final double margin;
-  final Brightness brightness;
-  final double labelFlex;
-  final TextStyle labelStyle;
+  final Function? onTap;
+  final String? text;
+  final Icon? icon;
+  final double? margin;
+  final Brightness? brightness;
+  final double? labelFlex;
+  final TextStyle? labelStyle;
 
   int get iconSize => 19;
   int get textSize => 16;
 
   @override
   Widget build(BuildContext context) {
-    final Animation<double> animation = listenable;
-    final Tween<double> tween = Tween<double>(begin: 1.0, end: 1.0 + labelFlex);
-    final Color color = brightness == Brightness.dark
+    final Animation<double> animation = listenable as Animation<double>;
+    final Tween<double> tween =
+        Tween<double>(begin: 1.0, end: 1.0 + labelFlex!);
+    final Color? color = brightness == Brightness.dark
         ? Color.lerp(Colors.white54, Colors.white, animation.value)
         : Color.lerp(Colors.black54, Colors.black, animation.value);
 
@@ -196,53 +222,59 @@ class _ShiftingTabWidget extends AnimatedWidget {
       child: InkWell(
         highlightColor: Colors.transparent,
         splashColor: Colors.transparent,
-        onTap: onTap,
+        onTap: onTap as void Function()?,
         child: _buildTab(animation, color, margin, context),
       ),
     );
   }
 
   Widget _buildTab(
-    Animation<double> animation, 
-    Color color, 
-    double margin,
-    BuildContext context,) {
+    Animation<double> animation,
+    Color? color,
+    double? margin,
+    BuildContext context,
+  ) {
     final TextDirection dir = Directionality.of(context);
-    
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         _buildIcon(color, margin, dir),
         _buildText(
-          animation, 
-          color, 
-          dir, 
-          labelStyle ?? Theme.of(context).textTheme.headline5.copyWith(fontSize: 14, color: color, letterSpacing: 2, fontWeight: FontWeight.bold)
-        ),
+            animation,
+            color,
+            dir,
+            labelStyle ??
+                Theme.of(context).textTheme.headline5!.copyWith(
+                    fontSize: 14,
+                    color: color,
+                    letterSpacing: 2,
+                    fontWeight: FontWeight.bold)),
       ],
     );
   }
 
-  Widget _buildIcon(Color color, double margin, TextDirection dir) {
+  Widget _buildIcon(Color? color, double? margin, TextDirection dir) {
     return Container(
       margin: dir == TextDirection.ltr
-          ? EdgeInsets.only(left: margin)
-          : EdgeInsets.only(right: margin),
+          ? EdgeInsets.only(left: margin!)
+          : EdgeInsets.only(right: margin!),
       child: IconTheme.merge(
         data: IconThemeData(
           color: color,
           size: iconSize.toDouble(),
         ),
-        child: icon,
+        child: icon!,
       ),
     );
   }
 
   Widget _buildText(
-      Animation<double> animation, 
-      Color color, 
-      TextDirection dir,
-      TextStyle labelStyle) {
+    Animation<double> animation,
+    Color? color,
+    TextDirection dir,
+    TextStyle labelStyle,
+  ) {
     return FadeTransition(
       opacity: animation,
       child: SizeTransition(
@@ -255,7 +287,7 @@ class _ShiftingTabWidget extends AnimatedWidget {
               children: <Widget>[
                 DefaultTextStyle(
                   style: labelStyle,
-                  child: Text(text),
+                  child: Text(text!),
                 )
               ]),
         ),
@@ -271,14 +303,14 @@ class _ShiftingAnimation extends Animation<double>
     with AnimationWithParentMixin<double> {
   _ShiftingAnimation(this.controller, this.index);
 
-  final TabController controller;
+  final TabController? controller;
   final int index;
 
   @override
-  Animation<double> get parent => controller.animation;
+  Animation<double> get parent => controller!.animation!;
 
   @override
-  double get value => _indexChangeProgress(controller, index);
+  double get value => _indexChangeProgress(controller!, index);
 }
 
 /// I'm not exactly sure that what I did here. LOL
@@ -286,7 +318,7 @@ class _ShiftingAnimation extends Animation<double>
 /// animation (witch is a double between 0.0 and number of tab items minus one)
 /// to a double between 0.0 and 1.0 base on [index] of tab.
 double _indexChangeProgress(TabController controller, int index) {
-  final double controllerValue = controller.animation.value;
+  final double controllerValue = controller.animation!.value;
   final double previousIndex = controller.previousIndex.toDouble();
   final double currentIndex = controller.index.toDouble();
 
