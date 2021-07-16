@@ -115,7 +115,7 @@ class _ShiftingTabBarState extends State<ShiftingTabBar> {
       child: SafeArea(
         top: true,
         child: Row(
-          children: _buildTabWidgets() as List<Widget>,
+          children: _buildTabWidgets(),
         ),
       ),
     );
@@ -128,9 +128,9 @@ class _ShiftingTabBarState extends State<ShiftingTabBar> {
     return (deviceWidth / sizeFactor - 19) / 2;
   }
 
-  List<_ShiftingTabWidget?> _buildTabWidgets() {
+  List<_ShiftingTabWidget> _buildTabWidgets() {
     final double margin = _computeTabMargin(widget.tabs.length);
-    final List<_ShiftingTabWidget?> tabWidgets = List<_ShiftingTabWidget?>.from(
+    final List<_ShiftingTabWidget> tabWidgets = List<_ShiftingTabWidget>.from(
       widget.tabs.mapIndexed<_ShiftingTabWidget>(
         (ShiftingTab tab, int index) => _ShiftingTabWidget(
           key: tab.key,
