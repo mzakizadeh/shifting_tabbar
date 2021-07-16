@@ -1,3 +1,6 @@
+## 1.0.1
+* Resolves issue #7
+
 ## 1.0.0
 * Nullsafety
 
