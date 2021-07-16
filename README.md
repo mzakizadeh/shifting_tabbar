@@ -15,7 +15,7 @@ The design is inspired from Rally project (one of material design studies).
 ```yaml
 dependencies:
     ...
-    shifting_tabbar: ^1.0.0
+    shifting_tabbar: ^1.0.2
 ```
 
 ### Import the package

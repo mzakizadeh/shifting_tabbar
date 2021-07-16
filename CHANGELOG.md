@@ -1,5 +1,8 @@
-## 1.0.1
+## 1.0.2
 * Resolves issue #7
+
+## 1.0.1
+* Minor changes for flutter analyzer
 
 ## 1.0.0
 * Nullsafety
