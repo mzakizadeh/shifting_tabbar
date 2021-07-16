@@ -4,7 +4,7 @@ A custom tab bar widget for Flutter framework.
 
 The design is inspired from Rally project (one of material design studies).
 
-[![pub package](https://img.shields.io/badge/pub-v1.0.0-blue.svg)](https://pub.dartlang.org/packages/shifting_tabbar)
+[![pub package](https://img.shields.io/badge/pub-v1.0.2-blue.svg)](https://pub.dartlang.org/packages/shifting_tabbar)
 
 <img align="right" width="248" height="512" src="https://drive.google.com/uc?export=view&id=1a4UkBFG7M9ZES9J4tai1zdFeAIkLPD2O">
 
